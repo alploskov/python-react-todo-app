@@ -56,7 +56,7 @@ def TodoList():
     return (
         <div>
           <input id='add_task'></input><br></br>
-          <button onClick={_new}>{'Add task'}</button>
+          <button onClick={_new}>Add task</button>
           <ul>
             {_tasks}
           </ul>
@@ -66,7 +66,7 @@ def TodoList():
 def App(obj):
     return (
         <div id='main'>
-          <h1><a href='https://github.com/alploskov/python-todo-react'>Source code</a></h1>
+          <h1>This app is written in python(<a href='https://github.com/alploskov/python-react-todo-app'>source code</a>)</h1>
           <TodoList></TodoList>
         </div>
     )

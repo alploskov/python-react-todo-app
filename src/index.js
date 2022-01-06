@@ -70,7 +70,7 @@ function TodoList() {
             <br>
             </br>
             <button onClick={_new}>
-                Add task
+                {"Add task"}
             </button>
             <ul>
                 {_tasks}
@@ -82,9 +82,11 @@ function App(obj) {
     return (
         <div id="main">
             <h1>
-                <a href="https://github.com/alploskov/python-todo-react">
-                    {"Source code"}
+                {"This app is written in python("}
+                <a href="https://github.com/alploskov/python-react-todo-app">
+                    {"source code"}
                 </a>
+                {")"}
             </h1>
             <TodoList>
             </TodoList>
