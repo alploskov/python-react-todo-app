@@ -6,4 +6,4 @@ source code in src/app.pyx
 
 generated code in src/index.js
 
-[result of my work]()
+[result of my work](https://alploskov.github.io/python-react-todo-app/)
