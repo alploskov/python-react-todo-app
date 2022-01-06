@@ -1,26 +1,27 @@
-todos = [
+tasks = [
     {'title': 'First task', 'id': 1},
     {'title': 'Second task', 'id': 2},
     {'title': 'Third task', 'id': 3}
 ]
 
+task_id = len(tasks)
 def TodoItem(obj):
-    state = React.useState(2)
+    state, set_state = React.useState(2)
     def _delete():
-        state[1](0)
+        set_state(0)
     def _check():
-        state[1](1)
+        set_state(1)
     task = ''
-    if state[0] == 2:
+    if state == 2:
         task = obj.title
-    elif state[0] == 1:
+    elif state == 1:
         task = <del>{obj.title}</del>
     else:
-        global todos
+        global tasks
         def it(todo):
             return todo.id != obj.index
-        todos = filter(it, todos)
-        print(todos)
+        tasks = filter(it, tasks)
+        print(tasks)
         return ''
     return (
         <li id={'ti'+obj.index}>
@@ -32,23 +33,24 @@ def TodoItem(obj):
     )
 
 def TodoList():
-    state = React.useState(todos)
+    state, set_state = React.useState(tasks)
     def _new():
-        global todos, num_todos
+        global tasks, task_id
         form = get_by_id('add_task')
         _name = form.value
         form.value = ''
-        todos += [{'title': _name, 'id': len(todos) + 1}]
-        print(todos)
-        state[1](todos)
+        task_id += 1
+        tasks += [{'title': _name, 'id': task_id}]
+        print(tasks)
+        set_state(tasks)
 
-    _todos = []
-    for _i in range(len(todos)):
-        _todos.append(
+    _tasks = []
+    for _i in range(len(tasks)):
+        _tasks.append(
             <TodoItem
-              index={todos[_i].id}
-              title={todos[_i].title}
-              key={todos[_i].id}
+              index={tasks[_i].id}
+              title={tasks[_i].title}
+              key={tasks[_i].id}
             ></TodoItem>
         )
     return (
@@ -56,7 +58,7 @@ def TodoList():
           <input id='add_task'></input><br></br>
           <button onClick={_new}>{'Add task'}</button>
           <ul>
-            {_todos}
+            {_tasks}
           </ul>
         </div>
     )

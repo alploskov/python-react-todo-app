@@ -2,20 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 
-let todos = [{"title": "Первый пункт","id": 1,}, {"title": "Второй пункт","id": 2,}, {"title": "Третий пункт","id": 3,}];
-let num_todos = todos.length;
+let tasks = [{"title": "First task","id": 1,}, {"title": "Second task","id": 2,}, {"title": "Third task","id": 3,}];
+let task_id = tasks.length;
 function TodoItem(obj) {
-    let state = React.useState(2);
+    let [state, set_state] = React.useState(2)
     function _delete() {
-        state[1](0, );
+        set_state(0);
     }
     function _check() {
-        state[1](1, );
+        set_state(1);
     }
     let task = "";
-    if (state[0] == 2) {
+    if (state == 2) {
         task = obj.title;
-    } else if (state[0] == 1) {
+    } else if (state == 1) {
         task = (
             <del>
                 {obj.title}
@@ -26,8 +26,8 @@ function TodoItem(obj) {
         function it(todo) {
             return todo.id != obj.index;
         }
-        todos = todos.filter(it);
-        console.log(todos, );
+        tasks = tasks.filter(it);
+        console.log(tasks);
         return "";
     }
     return (
@@ -45,21 +45,21 @@ function TodoItem(obj) {
     );
 }
 function TodoList() {
-    let state = React.useState(todos);
+    let [state, set_state] = React.useState(tasks)
     function _new() {
         
-        let form = document.getElementById("add_task", );
+        let form = document.getElementById("add_task");
         let _name = form.value;
         form.value = "";
-        num_todos = num_todos + 1;
-        todos = todos.concat([{"title": _name,"id": num_todos,}]);
-        console.log(todos, );
-        state[1](todos, );
+        task_id = task_id + 1;
+        tasks = tasks.concat([{"title": _name,"id": task_id,}]);
+        console.log(tasks);
+        set_state(tasks);
     }
-    let _todos = [];
-    for (let _i = 0;_i < todos.length; _i += 1) {
-        _todos.push((
-            <TodoItem index={todos[(_i<0)?(todos.length+_i):(_i)].id} title={todos[(_i<0)?(todos.length+_i):(_i)].title} key={todos[(_i<0)?(todos.length+_i):(_i)].id}>
+    let _tasks = [];
+    for (let _i = 0;_i < tasks.length; _i += 1) {
+        _tasks.push((
+            <TodoItem index={tasks[(_i<0)?(tasks.length+_i):(_i)].id} title={tasks[(_i<0)?(tasks.length+_i):(_i)].title} key={tasks[(_i<0)?(tasks.length+_i):(_i)].id}>
             </TodoItem>
         ));
     }
@@ -70,10 +70,10 @@ function TodoList() {
             <br>
             </br>
             <button onClick={_new}>
-                Добавить задачу
+                Add task
             </button>
             <ul>
-                {_todos}
+                {_tasks}
             </ul>
         </div>
     );
@@ -82,7 +82,9 @@ function App(obj) {
     return (
         <div id="main">
             <h1>
-                Здраствуйте, это React приложение написанное на python
+                <a href="https://github.com/alploskov/python-todo-react">
+                    {"Source code"}
+                </a>
             </h1>
             <TodoList>
             </TodoList>
@@ -92,4 +94,4 @@ function App(obj) {
 ReactDOM.render((
     <App>
     </App>
-), document.getElementById("root", ));
+), document.getElementById("root"));
