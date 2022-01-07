@@ -5,23 +5,25 @@ import ReactDOM from 'react-dom';
 let tasks = [{"title": "First task","id": 1,}, {"title": "Second task","id": 2,}, {"title": "Third task","id": 3,}];
 let task_id = tasks.length;
 function TodoItem(obj) {
-    let [state, set_state] = React.useState(2)
+    let [state, set_state] = React.useState(1)
     function _delete() {
-        set_state(0);
+        if (window.confirm("Are you sure?")) {
+            set_state(-(1));
+        } 
     }
     function _check() {
-        set_state(1);
+        set_state(!(state));
     }
     let task = "";
-    if (state == 2) {
+    if (state == 1) {
         task = obj.title;
-    } else if (state == 1) {
+    } else if (state == 0) {
         task = (
             <del>
                 {obj.title}
             </del>
         );
-    } else {
+    } else if (state == -(1)) {
         
         function it(todo) {
             return todo.id != obj.index;
@@ -29,7 +31,7 @@ function TodoItem(obj) {
         tasks = tasks.filter(it);
         console.log(tasks);
         return "";
-    }
+    } 
     return (
         <li id={"ti" + obj.index}>
             {task}
@@ -50,6 +52,16 @@ function TodoList() {
         
         let form = document.getElementById("add_task");
         let _name = form.value;
+        if (_name == "") {
+            form.style.border = "2px solid red";
+            document.getElementById("msg").innerHTML = "Task's name cannot be empty";
+            function default_style() {
+                form.style.border = "";
+            }
+            setTimeout(default_style, 150);
+            return "";
+        } 
+        document.getElementById("msg").innerHTML = "";
         form.value = "";
         task_id = task_id + 1;
         tasks = tasks.concat([{"title": _name,"id": task_id,}]);
@@ -65,7 +77,9 @@ function TodoList() {
     }
     return (
         <div>
-            <input id="add_task">
+            <div id="msg">
+            </div>
+            <input id="add_task" placeholder="name">
             </input>
             <br>
             </br>

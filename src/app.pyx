@@ -6,17 +6,18 @@ tasks = [
 
 task_id = len(tasks)
 def TodoItem(obj):
-    state, set_state = React.useState(2)
+    state, set_state = React.useState(1)
     def _delete():
-        set_state(0)
+        if window.confirm('Are you sure?'):
+            set_state(-1)
     def _check():
-        set_state(1)
+        set_state(not state)
     task = ''
-    if state == 2:
+    if state == 1:
         task = obj.title
-    elif state == 1:
+    elif state == 0:
         task = <del>{obj.title}</del>
-    else:
+    elif state == -1:
         global tasks
         def it(todo):
             return todo.id != obj.index
@@ -38,6 +39,14 @@ def TodoList():
         global tasks, task_id
         form = get_by_id('add_task')
         _name = form.value
+        if _name == '':
+            form.style.border = '2px solid red'
+            get_by_id('msg') <= 'Task\'s name cannot be empty'
+            def default_style():
+                form.style.border = ''
+            setTimeout(default_style, 150)
+            return ''
+        get_by_id('msg') <= ''
         form.value = ''
         task_id += 1
         tasks += [{'title': _name, 'id': task_id}]
@@ -55,7 +64,8 @@ def TodoList():
         )
     return (
         <div>
-          <input id='add_task'></input><br></br>
+          <div id='msg'></div>
+          <input id='add_task' placeholder='name'></input><br></br>
           <button onClick={_new}>Add task</button>
           <ul>
             {_tasks}
