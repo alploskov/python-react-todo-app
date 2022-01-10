@@ -1,10 +1,13 @@
+require('@material-ui/core/Button').to(Button)
+require('@mui/material/TextField').to(TextFiled)
+
 tasks = [
     {'title': 'First task', 'id': 1},
     {'title': 'Second task', 'id': 2},
     {'title': 'Third task', 'id': 3}
 ]
-
 task_id = len(tasks)
+
 def TodoItem(obj):
     state, set_state = React.useState(1)
     def _delete():
@@ -25,28 +28,42 @@ def TodoItem(obj):
         print(tasks)
         return ''
     return (
-        <li id={'ti'+obj.index}>
-          {task}
-          <br></br>
-          <button onClick={_check}>{'✓'}</button>
-          <button onClick={_delete}>{'✗'}</button>
+        <li style={{'fontSize': '16pt'}}>
+          <p
+            lang='en'
+            style={{
+                'margin': '0px',
+                'width': '250px',
+                'hyphens': 'auto'}}
+          >{task}</p>
+          <Button
+            style={{'backgroundColor': '#66bb6a'}}
+            variant="contained"
+            size="small"
+            onClick={_check}
+          >{'✓'}</Button>
+          <Button
+            style={{'backgroundColor': '#f44336'}}
+            variant="contained"
+            size="small"
+            onClick={_delete}
+          >{'✗'}</Button>
         </li>
     )
 
 def TodoList():
     state, set_state = React.useState(tasks)
+    input_state, change_inp_state = React.useState(False)
     def _new():
         global tasks, task_id
         form = get_by_id('add_task')
         _name = form.value
         if _name == '':
-            form.style.border = '2px solid red'
-            get_by_id('msg') <= 'Task\'s name cannot be empty'
+            change_inp_state(True)
             def default_style():
-                form.style.border = ''
-            setTimeout(default_style, 150)
+                change_inp_state(False)
+            setTimeout(default_style, 250)
             return ''
-        get_by_id('msg') <= ''
         form.value = ''
         task_id += 1
         tasks += [{'title': _name, 'id': task_id}]
@@ -54,7 +71,7 @@ def TodoList():
         set_state(tasks)
 
     _tasks = []
-    for _i in range(len(tasks)):
+    for _i in range(len(state)):
         _tasks.append(
             <TodoItem
               index={tasks[_i].id}
@@ -65,9 +82,23 @@ def TodoList():
     return (
         <div>
           <div id='msg'></div>
-          <input id='add_task' placeholder='name'></input><br></br>
-          <button onClick={_new}>Add task</button>
-          <ul>
+          <TextFiled
+            variant='outlined'
+            id='add_task'
+            error={input_state}
+            label="Task's name"
+            multiline={True}
+            placeholder="Placeholder"
+            helperText="Task's name cannot be empty"
+          ></TextFiled><br></br>
+          <Button
+            style={{
+                'backgroundColor': (input_state and '#f44336') or '#4fc3f7'
+            }}
+            variant='contained'
+            onClick={_new}
+          >Add task</Button>
+          <ul style={{'listStyle': 'none'}}>
             {_tasks}
           </ul>
         </div>
@@ -75,8 +106,8 @@ def TodoList():
 
 def App(obj):
     return (
-        <div id='main'>
-          <h1>This app is written in python(<a href='https://github.com/alploskov/python-react-todo-app'>source code</a>)</h1>
+        <div>
+          <h2>This app is written in python(<a href='https://github.com/alploskov/python-react-todo-app'>source code</a>)</h2>
           <TodoList></TodoList>
         </div>
     )

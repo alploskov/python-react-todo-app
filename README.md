@@ -1,4 +1,4 @@
-This is react app writen on python and translated with [transPYler](https://github.com/alploskov/transPYler)
+This is react app writen on python and translated with [kithon](https://github.com/alploskov/kithon)
 
 For additional syntax, as in jsx, [pyxl](https://github.com/gvanrossum/pyxl3) is used.
 
